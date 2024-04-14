@@ -1,0 +1,17 @@
+[
+  {
+    "name": "xd",
+    "price": 2.0,
+    "quantity": 2
+  },
+  {
+    "name": "pan",
+    "price": 23.0,
+    "quantity": 0
+  },
+  {
+    "name": "vamo",
+    "price": 2.0,
+    "quantity": 2
+  }
+]
