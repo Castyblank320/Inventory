@@ -10,14 +10,14 @@ package inventory;
  */
 public class AreYouSure extends javax.swing.JFrame{
     public boolean Answer;
-    private Inventory Inventory;
+    private Inventory PInventory;
     /**
      * Creates new form AreYouSure
      */
     public AreYouSure(Inventory inventory) {
         initComponents();
-        this.Inventory = inventory;
-        Inventory.setEnabled(false);
+        this.PInventory = inventory;
+        PInventory.setEnabled(false);
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -82,14 +82,14 @@ public class AreYouSure extends javax.swing.JFrame{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         Answer = true;
-        Inventory.setEnabled(true);
-        Inventory.deleteProduct();
+        PInventory.setEnabled(true);
+        PInventory.deleteProduct();
         dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         Answer = false;
-        Inventory.setEnabled(true);
+        PInventory.setEnabled(true);
         dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
