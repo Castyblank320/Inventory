@@ -28,6 +28,7 @@ public class Inventory extends javax.swing.JFrame {
         try (FileReader fileReader = new FileReader("objeto.json")){
             Inventory = gson.fromJson(fileReader, typeInventory);
             update();
+            updateSearch(filter(""));
         }catch(Exception e){
             System.err.println("Error: " + e.getMessage());
             save();
@@ -56,6 +57,14 @@ public class Inventory extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         aError = new javax.swing.JLabel();
         aAdd = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        TextField = new javax.swing.JTextPane();
+        Search = new javax.swing.JButton();
+        Clear = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        STable = new javax.swing.JTable();
+        SError = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -109,12 +118,13 @@ public class Inventory extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(DeleteProduct, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Error, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(Error, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(Price, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(DeleteProduct)
                         .addGap(18, 18, 18)
                         .addComponent(UpdatePrice, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                 .addGap(18, 18, 18)
@@ -126,7 +136,7 @@ public class Inventory extends javax.swing.JFrame {
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(7, 7, 7)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -134,11 +144,12 @@ public class Inventory extends javax.swing.JFrame {
                         .addComponent(Quantity, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(Error, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(12, 12, 12)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(UpdateQuantity)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(DeleteProduct)
-                    .addComponent(UpdatePrice))
-                .addContainerGap(11, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(UpdateQuantity)
+                        .addComponent(UpdatePrice)))
+                .addContainerGap(10, Short.MAX_VALUE))
         );
 
         Tab.addTab("Inventory", jPanel1);
@@ -199,6 +210,75 @@ public class Inventory extends javax.swing.JFrame {
 
         Tab.addTab("Add product", jPanel2);
 
+        jScrollPane2.setViewportView(TextField);
+
+        Search.setText("Search");
+        Search.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SearchActionPerformed(evt);
+            }
+        });
+
+        Clear.setText("Clear");
+        Clear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClearActionPerformed(evt);
+            }
+        });
+
+        STable.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Name", "Price", "Quantity "
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.Double.class, java.lang.Integer.class
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+        });
+        jScrollPane3.setViewportView(STable);
+
+        javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(25, 25, 25)
+                .addComponent(jScrollPane2)
+                .addGap(18, 18, 18)
+                .addComponent(Search)
+                .addGap(18, 18, 18)
+                .addComponent(Clear)
+                .addGap(42, 42, 42))
+            .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 412, Short.MAX_VALUE)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(155, 155, 155)
+                .addComponent(SError, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel3Layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Search)
+                        .addComponent(Clear)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(SError, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 254, Short.MAX_VALUE))
+        );
+
+        Tab.addTab("Search", jPanel3);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -221,6 +301,7 @@ public class Inventory extends javax.swing.JFrame {
                     Double.parseDouble(aPrice.getText()),
                     Integer.parseInt(aQuantity.getText())));
                 update();
+                updateSearch(filter(""));
                 aError.setText("Product added");
             }else{
                 aError.setText("No valid value");
@@ -242,10 +323,15 @@ public class Inventory extends javax.swing.JFrame {
 
     private void UpdatePriceActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdatePriceActionPerformed
         try{
-            if (!(Double.parseDouble(Price.getText())<0)){
-                Inventory.get(Table.getSelectedRow()).setPrice(Double.parseDouble(Price.getText()));
-                update();
-                Error.setText("Price updated");
+            if (!(Double.parseDouble(Price.getText()) < 0)){
+                if (Table.getSelectedRow() == -1){
+                    Error.setText("No row selected");
+                }else{
+                    Inventory.get(Table.getSelectedRow()).setPrice(Double.parseDouble(Price.getText()));
+                    update();
+                    updateSearch(filter(""));
+                    Error.setText("Price updated");
+                }
             }else{
                 Error.setText("No valid value");
             }
@@ -256,10 +342,15 @@ public class Inventory extends javax.swing.JFrame {
 
     private void UpdateQuantityActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_UpdateQuantityActionPerformed
         try{
-            if (!(Integer.parseInt(Quantity.getText())<0)){
-                Inventory.get(Table.getSelectedRow()).setQuantity(Integer.parseInt(Quantity.getText()));
-                update();
-                Error.setText("Quantity updated");
+            if (!(Integer.parseInt(Quantity.getText()) < 0)){
+                if (Table.getSelectedRow() == -1){
+                    Error.setText("No row selected");
+                }else{
+                    Inventory.get(Table.getSelectedRow()).setQuantity(Integer.parseInt(Quantity.getText()));
+                    update();
+                    updateSearch(filter(""));
+                    Error.setText("Quantity updated");
+                }
             }else{
                 Error.setText("No valid value");
             }
@@ -267,6 +358,20 @@ public class Inventory extends javax.swing.JFrame {
             Error.setText("No valid value");
         }
     }//GEN-LAST:event_UpdateQuantityActionPerformed
+
+    private void SearchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SearchActionPerformed
+        try{
+            updateSearch(filter(TextField.getText()));
+            SError.setText("");
+        }catch(Exception e){
+            SError.setText("Error");
+        }
+    }//GEN-LAST:event_SearchActionPerformed
+
+    private void ClearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClearActionPerformed
+        TextField.setText("");
+        updateSearch(filter(""));
+    }//GEN-LAST:event_ClearActionPerformed
 
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -306,17 +411,51 @@ public class Inventory extends javax.swing.JFrame {
         save();
     }
     
+    void updateSearch(ArrayList<Product> list){
+        String[][] data = new String[list.size()][3];
+        
+        for (int i=0;i<list.size();i++){
+            Product a = list.get(i);
+            data[i][0] = a.getName();
+            data[i][1] = "$ "+a.getPrice();
+            data[i][2] = a.getQuantity()+"";
+        }
+        DefaultTableModel tableModel = new DefaultTableModel(data, COLUMNS) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        STable.setModel(tableModel);
+    }
+    
     public void deleteProduct(){
         Inventory.remove(Table.getSelectedRow());
         update();
+        updateSearch(filter(""));
+    }
+    
+    ArrayList<Product> filter(String word){
+        ArrayList<Product> result = new ArrayList<Product>();
+        for (Product i:Inventory){
+            if (i.getName().contains(word)){
+                result.add(i);
+            }
+        }
+        return result;
     }
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Clear;
     private javax.swing.JButton DeleteProduct;
     private javax.swing.JLabel Error;
     private javax.swing.JTextField Price;
     private javax.swing.JTextField Quantity;
+    private javax.swing.JLabel SError;
+    private javax.swing.JTable STable;
+    private javax.swing.JButton Search;
     private javax.swing.JTabbedPane Tab;
     private javax.swing.JTable Table;
+    private javax.swing.JTextPane TextField;
     private javax.swing.JButton UpdatePrice;
     private javax.swing.JButton UpdateQuantity;
     private javax.swing.JButton aAdd;
@@ -329,6 +468,9 @@ public class Inventory extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     // End of variables declaration//GEN-END:variables
 }

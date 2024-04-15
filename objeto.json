@@ -2,16 +2,16 @@
   {
     "name": "xd",
     "price": 2.0,
-    "quantity": 2
-  },
-  {
-    "name": "pan",
-    "price": 23.0,
-    "quantity": 0
+    "quantity": 23
   },
   {
     "name": "vamo",
-    "price": 2.0,
-    "quantity": 2
+    "price": 1.0,
+    "quantity": 4
+  },
+  {
+    "name": "pan",
+    "price": 0.23,
+    "quantity": 8
   }
 ]
